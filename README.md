@@ -1,66 +1,83 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 学生成绩管理系统
+基于 Laravel + LNMP (Linux, Nginx, MySQL, PHP) 技术栈的学生成绩展示项目。
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## 当前功能
+- ✅ 数据库连接配置（MySQL）
+- ✅ 学生成绩列表展示
+- ✅ 基础美观的响应式页面
+- ✅ MVC 架构实现
 
-## About Laravel
+## 技术栈
+- **框架**: Laravel 10.x
+- **后端**: PHP 8.1+
+- **数据库**: MySQL
+- **前端**: Blade 模板 + 原生 CSS
+- **Web 服务器**: Laravel 内置服务器
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 快速开始
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 开发环境
+- Ubuntu 22.04 (或其他 Linux 发行版)
+- PHP 8.1+
+- Composer
+- MySQL
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 安装步骤
 
-## Learning Laravel
+```bash
+# 1. 克隆项目后安装依赖
+composer install
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+# 2. 配置数据库（编辑 .env）
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=scores
+DB_USERNAME=test
+DB_PASSWORD=11112222
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+# 3. 设置目录权限
+chmod -R 775 storage bootstrap/cache
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+# 4. 启动开发服务器
+php artisan serve
 
-## Laravel Sponsors
+# 5. 项目结构
+student-scores/
+├── app/
+│   ├── Http/Controllers/
+│   │   └── ScoreController.php      # 成绩查询控制器
+│   └── Models/
+│       └── Scorename.php            # 成绩数据模型
+├── resources/
+│   └── views/
+│       └── scores/
+│           └── index.blade.php      # 成绩列表视图
+├── routes/
+│   └── web.php                      # 路由定义
+└── .env                             # 环境配置
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+# 6. 数据库表结构
+表名: scorename
+| 字段    | 类型        | 说明       |
+| ----- | --------- | -------- |
+| id    | int       | 主键（假设存在） |
+| name  | varchar   | 学生姓名     |
+| score | int/float | 成绩分数     |
 
-### Premium Partners
+# 7. 核心代码说明
+1. 数据模型 (app/Models/Scorename.php)
+protected $table = 'scorename';    // 指定表名
+public $timestamps = false;        // 无时间戳字段
+protected $fillable = ['name', 'score'];
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+2. 控制器 (app/Http/Controllers/ScoreController.php)
+public function index()
+{
+    $scores = Scorename::all();    // Eloquent 查询所有记录
+    return view('scores.index', compact('scores'));
+}
 
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+3. 路由 (routes/web.php)
+Route::get('/scores', [ScoreController::class, 'index']);
+```
